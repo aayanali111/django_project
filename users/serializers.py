@@ -12,7 +12,9 @@ class UsersInfoSerializer(serializers.ModelSerializer):
         fields = '__all__'
         extra_kwargs = {
             # Don't ever return password back to clients
-            'password': {'write_only': True}
+            'password': {'write_only': True},
+            'email': {'read_only': True}
+
         }
 
     def validate_email(self, value):
