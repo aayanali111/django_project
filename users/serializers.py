@@ -20,11 +20,11 @@ class UsersInfoSerializer(serializers.ModelSerializer):
         if not value.endswith('@gmail.com'):
             raise serializers.ValidationError("Only @gmail.com emails are allowed.")
         return value
-
+    
     def validate_password(self, value):
         if not re.match(PASSWORD_REGEX, value):
             raise serializers.ValidationError(
-                "Password must contain at least one uppercase letter, one digit, and one special character."
+                "Password must contain at least one uppercase letter, one digit, and one special character with alteast of total length 8."
             )
         return value
 

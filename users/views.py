@@ -14,7 +14,7 @@ def get_users(request):
 def register_user(request):
     serializer = UsersInfoSerializer(data=request.data)
     if serializer.is_valid():
-        serializer.save()
+        serializer.save()  # password will be hashed here
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -26,9 +26,9 @@ def update_user(request):
     except UsersInfo.DoesNotExist:
         return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
 
-    serializer = UsersInfoSerializer(user, data=request.data)
+    serializer = UsersInfoSerializer(user, data=request.data, partial=False)  # use partial=True if you want PATCH-like behaviour
     if serializer.is_valid():
-        serializer.save()
+        serializer.save()  # will hash password if present
         return Response(serializer.data)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
